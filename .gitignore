@@ -1,0 +1,30 @@
+mindmap
+  root((Automação Reqres API))
+    Robot Framework
+      Biblioteca RequestsLibrary
+      Suíte de Testes (.robot)
+      Recursos Reutilizáveis
+    API Reqres
+      Verbos HTTP
+        GET
+          Buscar um único usuário
+          Buscar lista de usuários
+        POST
+          Criar novo usuário
+        PUT
+          Atualizar usuário existente
+        DELETE
+          Deletar usuário
+    Testes
+      Autenticação
+        Endpoint: /api/login
+        Input: email e senha
+        Output: token
+      Testes de Verificação
+        Código de Status HTTP
+        Estrutura do JSON
+        Validação dos dados de retorno
+    Versionamento Git
+      Nova branch
+      Commits diários
+      Push para o repositório remoto
