@@ -1,31 +1,57 @@
-mindmap
-  root((Automação Reqres API))
-    Robot Framework
-      Biblioteca RequestsLibrary
-      Suíte de Testes (.robot)
-      Recursos Reutilizáveis
-    API Reqres
-      Verbos HTTP
-        GET
-          Buscar um único usuário
-          Buscar lista de usuários
-        POST
-          Criar novo usuário
-        PUT
-          Atualizar usuário existente
-        DELETE
-          Deletar usuário
-    Testes
-      Autenticação
-        Endpoint: /api/login
-        Input: email e senha
-        Output: token
-      Testes de Verificação
-        Código de Status HTTP
-        Estrutura do JSON
-        Validação dos dados de retorno
-    Versionamento Git
-      Nova branch
-      Commits diários
-      Push para o repositório remoto
-      /venv/
+# =========================================================================
+# Robot Framework - Arquivos de Log e Relatório
+# Essencial para não versionar os resultados de cada execução de teste.
+# =========================================================================
+log.html
+report.html
+output.xml
+*.png
+*.jpeg
+*.gif
+
+# Opcional: Descomente a linha abaixo se você salva os resultados
+# em uma pasta específica chamada "results" ou "logs".
+# /results/
+# /logs/
+
+
+# =========================================================================
+# Python - Ambiente Virtual e Cache
+# Ignora a pasta de dependências e os arquivos de cache gerados.
+# =========================================================================
+/venv/
+/.venv/
+/env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# =========================================================================
+# Arquivos de Ambiente e Credenciais
+# NUNCA comite senhas, tokens de API ou outras informações sensíveis.
+# =========================================================================
+.env
+.env.*
+# Adiciona uma exceção para o arquivo de exemplo, que é seguro comitar
+!.env.example
+
+
+# =========================================================================
+# Arquivos de Configuração de IDEs e Editores
+# Específico para o ambiente de desenvolvimento de cada pessoa.
+# =========================================================================
+.vscode/
+.idea/
+*.sublime-workspace
+
+
+# =========================================================================
+# Arquivos de Sistema Operacional
+# Lixo gerado pelo Windows, macOS, etc.
+# =========================================================================
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
