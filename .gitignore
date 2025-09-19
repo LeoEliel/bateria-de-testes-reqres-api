@@ -1,0 +1,57 @@
+# =========================================================================
+# Robot Framework - Arquivos de Log e Relatório
+# Essencial para não versionar os resultados de cada execução de teste.
+# =========================================================================
+log.html
+report.html
+output.xml
+*.png
+*.jpeg
+*.gif
+
+# Opcional: Descomente a linha abaixo se você salva os resultados
+# em uma pasta específica chamada "results" ou "logs".
+# /results/
+# /logs/
+
+
+# =========================================================================
+# Python - Ambiente Virtual e Cache
+# Ignora a pasta de dependências e os arquivos de cache gerados.
+# =========================================================================
+/venv/
+/.venv/
+/env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# =========================================================================
+# Arquivos de Ambiente e Credenciais
+# NUNCA comite senhas, tokens de API ou outras informações sensíveis.
+# =========================================================================
+.env
+.env.*
+# Adiciona uma exceção para o arquivo de exemplo, que é seguro comitar
+!.env.example
+
+
+# =========================================================================
+# Arquivos de Configuração de IDEs e Editores
+# Específico para o ambiente de desenvolvimento de cada pessoa.
+# =========================================================================
+.vscode/
+.idea/
+*.sublime-workspace
+
+
+# =========================================================================
+# Arquivos de Sistema Operacional
+# Lixo gerado pelo Windows, macOS, etc.
+# =========================================================================
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
