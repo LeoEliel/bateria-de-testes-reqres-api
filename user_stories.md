@@ -6,7 +6,7 @@ Abaixo estão as estórias de usuário,com os Critérios de Aceitação detalhad
 
 #### **Método: `GET` (Listar Usuários)**
 
-* **Estória:** O usuário deseja listar os usuários cadastrados.
+* **Estória:** O usuário deseja listar os usuários cadastrados em uma página específica.
     * **Cenário:** Listar usuários com sucesso para uma página específica.
         * **Dado** que a API está disponível.
         * **Quando** eu fizer uma requisição `GET` para `/api/users?page=2`.
