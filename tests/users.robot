@@ -4,16 +4,18 @@ Resource  common.robot
 *** Keywords ***
 
 Fazer Requisição GET Para Listar Usuários
-    [Documentation]    Executa requisição GET para listar usuários de uma página específica
+    [Documentation]    Executa requisição GET para listar usuários de uma página específica, trazendo 6 por página por padrão.
     [Tags]    GET    Request    Users
-    [Arguments]    ${pagina}=1
-    RETURN    GET On Session    ReqRes    url=users?page=${pagina}
+    [Arguments]    ${page}=1    ${per_page}=6
+    ${response}=    GET On Session    ReqRes    url=users?page=${page}&per_page=${per_page}
+    RETURN    ${response}
 
 Validar Resposta Da Listagem De Usuários
     [Documentation]    Valida estrutura da resposta de listagem de usuários incluindo paginação e dados dos usuários
     [Tags]    Validation    Users    Pagination
     [Arguments]    ${response}
-    Should Be Equal As Integers    ${response.status_code}    200
+    Log To Console    ${response}
+    Status Should Be    200    ${response}
     ${json}=    Set Variable    ${response.json()}
     FOR    ${field}    IN    page    per_page    total    total_pages
         Dictionary Should Contain Key    ${json}    ${field}
@@ -43,13 +45,14 @@ Fazer Requisição GET Para Buscar Usuário
     [Documentation]    Executa requisição GET para buscar um usuário específico pelo ID
     [Tags]    GET    Request    Users
     [Arguments]    ${id}
-    RETURN    GET On Session    ReqRes    /users/${id}
+    ${response}=    GET On Session    ReqRes    /users/${id}
+    RETURN    ${response}
 
 Validar Resposta De Busca De Usuário
     [Documentation]    Valida se a resposta contém os dados corretos do usuário buscado
     [Tags]    Validation    Users    HappyPath
     [Arguments]    ${response}    ${id}
-    Should Be Equal As Integers    ${response.status_code}    200
+    Status Should Be    200    ${response}
     Should Be Equal As Integers    ${response.json()['data']['id']}    ${id}
 
 Buscar Usuário Por ID
@@ -63,13 +66,14 @@ Fazer Requisição GET Para Buscar Usuário Inexistente
     [Documentation]    Executa requisição GET para buscar um usuário que não existe
     [Tags]    GET    Request    Users    SadPath
     [Arguments]    ${id}
-    RETURN    GET On Session    ReqRes    /users/${id}    expected_status=404
+    ${response}=    GET On Session    ReqRes    /users/${id}    expected_status=404
+    RETURN    ${response}
 
 Validar Resposta De Usuário Inexistente
     [Documentation]    Valida que a resposta retorna erro 404 para usuário inexistente
     [Tags]    Validation    Users    SadPath    404
     [Arguments]    ${response}
-    Should Be Equal As Integers    ${response.status_code}    404
+    Status Should Be    404    ${response}
     Should Be Equal    ${response.json()}    ${empty_dict}
 
 Buscar Usuário Inexistente
@@ -83,13 +87,15 @@ Fazer Requisição POST Para Criar Usuário
     [Documentation]    Executa requisição POST para criar um novo usuário
     [Tags]    POST    Request    Users    Create
     [Arguments]    ${name}    ${job}
-    RETURN    POST On Session    ReqRes    /users    json=&{name=${name}, job=${job}}
+    ${payload}=    Create Dictionary    name=${name}    job=${job}
+    ${response}=    POST On Session    ReqRes    /users    json=${payload}
+    RETURN    ${response}
 
 Validar Resposta De Criação De Usuário
     [Documentation]    Valida que o usuário foi criado com sucesso (status 201) e contém ID e data de criação
     [Tags]    Validation    Users    Create    201
     [Arguments]    ${response}
-    Should Be Equal As Integers    ${response.status_code}    201
+    Status Should Be    201    ${response}
     FOR    ${field}    IN    id    createdAt
         Dictionary Should Contain Key    ${response.json()}    ${field}
     END
@@ -105,13 +111,15 @@ Fazer Requisição PUT Para Atualizar Usuário
     [Documentation]    Executa requisição PUT para atualizar dados de um usuário existente
     [Tags]    PUT    Request    Users    Update
     [Arguments]    ${id}    ${name}    ${job}
-    RETURN    PUT On Session    ReqRes    /users/${id}    json=&{name=${name}, job=${job}}
+    ${payload}=    Create Dictionary    name=${name}    job=${job}
+    ${response}=    PUT On Session    ReqRes    /users/${id}    json=${payload}
+    RETURN    ${response}
 
 Validar Resposta De Atualização De Usuário
     [Documentation]    Valida que o usuário foi atualizado com sucesso e contém data de atualização
     [Tags]    Validation    Users    Update    200
     [Arguments]    ${response}
-    Should Be Equal As Integers    ${response.status_code}    200
+    Status Should Be    200    ${response}
     Dictionary Should Contain Key    ${response.json()}    updatedAt
 
 Atualizar Usuário
@@ -123,20 +131,21 @@ Atualizar Usuário
 
 Fazer Requisição DELETE Para Deletar Usuário
     [Documentation]    Executa requisição DELETE para remover um usuário
-    [Tags]    DELETE    Request    Users    Delete
+    [Tags]    DELETE    Request    Users    Erase
     [Arguments]    ${id}
-    RETURN    DELETE On Session    ReqRes    /users/${id}
+    ${response}=    DELETE On Session    ReqRes    /users/${id}
+    RETURN    ${response}
 
 Validar Resposta De Deleção De Usuário
     [Documentation]    Valida que o usuário foi deletado com sucesso (status 204 e conteúdo vazio)
-    [Tags]    Validation    Users    Delete    204
+    [Tags]    Validation    Users    Erase    204
     [Arguments]    ${response}
-    Should Be Equal As Integers    ${response.status_code}    204
+    Status Should Be    204    ${response}
     Should Be Empty    ${response.content}
 
 Deletar Usuário
     [Documentation]    Deleta um usuário e valida a resposta de deleção
-    [Tags]    DELETE    Users    Delete    HappyPath
+    [Tags]    DELETE    Users    Erase    HappyPath
     [Arguments]    ${id}
     ${response}=    Fazer Requisição DELETE Para Deletar Usuário    ${id}
     Validar Resposta De Deleção De Usuário    ${response}

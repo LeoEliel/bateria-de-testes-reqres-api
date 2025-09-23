@@ -1,5 +1,6 @@
 *** Settings ***
 Resource  common.robot
+Resource    dynamics.robot
 
 *** Keywords ***
 
@@ -33,11 +34,16 @@ Gerar ID Inexistente
     ${id}=    FakerLibrary.Random Int    min=100    max=999
     RETURN    ${id}
 
-Gerar Dados Completos Para Teste
+Gerar Dados De Usuário
     [Documentation]    Gera conjunto completo de dados para testes (nome, profissão, email, senha e ID inexistente)
     [Tags]    DataGeneration    Faker    Complete
     ${name}=    Gerar Nome De Usuário
     ${job}=    Gerar Profissão De Usuário
+    RETURN    ${name}    ${job}
+Gerar Dados Completos Para Teste
+    [Documentation]    Gera conjunto completo de dados para testes (nome, profissão, email, senha e ID inexistente)
+    [Tags]    DataGeneration    Faker    Complete
+    ${name}    ${job}=    Gerar Dados De Usuário
     ${email}=    Gerar Email Válido
     ${password}=    Gerar Senha Aleatória
     ${id_inexistente}=    Gerar ID Inexistente
