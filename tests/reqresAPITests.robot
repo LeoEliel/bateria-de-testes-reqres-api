@@ -1,13 +1,15 @@
 *** Settings ***
 Documentation    Suite de testes para validação da API reqres. Feito por Leonardo Eliel -- Unitest Squad
-Resource         ./resources.robot
-
+Resource    ./login.robot
+Resource    ./users.robot
+Resource    ./register.robot
+Resource    ./unknown.robot
+Resource    ./dynamics.robot
 *** Test Cases ***
 Cenário 1: Listar Usuários de uma página específica
     [Documentation]    Listar os usuários de uma página específica.
     [Tags]    API    GET    /users    HappyPath
-    Cria Sessão na URL
-    Listar Usuários Da Página    2
+    Fazer Requisição GET Para Listar Usuários
 
 Cenário 2: Buscar um usuário existente
     [Documentation]    Buscar os dados do usuário com ID 2.
@@ -16,22 +18,25 @@ Cenário 2: Buscar um usuário existente
     Buscar Usuário Por ID    2
 
 Cenário 3: Buscar um usuário inexistente
-    [Documentation]    Buscar usuário com ID inexistente (23).
+    [Documentation]    Buscar usuário com ID inexistente.
     [Tags]    API    GET    /users/{id}    SadPath
     Cria Sessão na URL
-    Buscar Usuário Inexistente    23
+    ${id_inexistente}=    Gerar ID Inexistente
+    Buscar Usuário Inexistente    ${id_inexistente}
 
 Cenário 4: Criar um novo usuário com sucesso
     [Documentation]    Criar um novo usuário e validar resposta.
     [Tags]    API    POST    /users    HappyPath
     Cria Sessão na URL
-    Criar Novo Usuário    Leonardo Eliel    QA Engineer
+    ${name}    ${job}=    Gerar Dados De Usuário
+    Criar Novo Usuário    ${name}    ${job}
 
 Cenário 5: Atualizar um usuário com sucesso
     [Documentation]    Atualizar dados do usuário com ID 2.
     [Tags]    API    PUT    /users/{id}    HappyPath
     Cria Sessão na URL
-    Atualizar Usuário    2    Leonardo Eliel    Senior QA
+    ${name}    ${job}=    Gerar Dados De Usuário
+    Atualizar Usuário    2    ${name}    ${job}
 
 Cenário 6: Deletar um usuário com sucesso
     [Documentation]    Deletar usuário com ID 2.
@@ -70,7 +75,8 @@ Cenário 11: Buscar recurso desconhecido existente
     Buscar Recurso Desconhecido    2
 
 Cenário 12: Buscar recurso desconhecido inexistente
-    [Documentation]    Buscar recurso desconhecido com ID inexistente (23).
+    [Documentation]    Buscar recurso desconhecido com ID inexistente.
     [Tags]    API    GET    /unknown/{id}    SadPath
     Cria Sessão na URL
-    Buscar Recurso Desconhecido Inexistente    23
+    ${id_inexistente}=    Gerar ID Inexistente
+    Buscar Recurso Desconhecido Inexistente    ${id_inexistente}
