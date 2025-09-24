@@ -1,5 +1,8 @@
 *** Settings ***
-Resource  common.robot
+Resource    ../support/common/base.robot
+Resource    ../variaveis/reqres_variaveis.robot
+Library  String
+Library  Collections
 
 *** Keywords ***
 
