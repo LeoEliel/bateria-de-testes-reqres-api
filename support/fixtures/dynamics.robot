@@ -1,6 +1,5 @@
 *** Settings ***
-Resource  common.robot
-Resource    dynamics.robot
+Library  FakerLibrary  
 
 *** Keywords ***
 

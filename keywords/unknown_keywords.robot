@@ -1,5 +1,7 @@
 *** Settings ***
-Resource  common.robot
+Resource    ../support/common/base.robot
+Library  String
+Library  Collections
 
 *** Keywords ***
 
